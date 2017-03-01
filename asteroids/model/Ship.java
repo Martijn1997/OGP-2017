@@ -120,12 +120,10 @@ public class Ship {
 	}
 	
 	/**
-	 * @post	...
-	 * 			| new.getXVelocity() = xVel
 	 * 
-	 * @post 	...
-	 * 			| if !isValidVelocity(totalVelocity(xVel, this.yVelocity))
-	 * 			| new.getXVelocity() = getXVelocity()
+	 *@post if the supplied value for yVel is valid, the velocity it set to yVel
+	 * 			| if isValidVelocity(totalVelocity(yVel, this.getXVelocity))
+	 * 			| then new.getXVelocity() = xVel
 	 */
 	@Basic @Raw
 	public void setXVelocity(double xVel){
@@ -144,13 +142,10 @@ public class Ship {
 		return this.yVelocity;
 	}
 	
-	/**
-	 * @post	...
-	 * 			| new.getYVelocity() = yVel
-	 * 
-	 * @post 	...
-	 * 			| if !isValidVelocity(totalVelocity(this.xVelocity, yVel))
-	 * 			| new.getYVelocity() = getYVelocity()
+	/** 
+	 * @post 	if the supplied value for yVel is valid, the velocity it set to yVel
+	 * 			| if isValidVelocity(totalVelocity(this.xVelocity, yVel))
+	 * 			| then new.getYVelocity() = yVel
 	 */
 	@Basic @Raw
 	public void setYVelocity(double yVel){
@@ -163,14 +158,11 @@ public class Ship {
 	
 	
 	/**
-	 * @post	...
-	 * 			| new.getXVelocity() = xVel
-	 * 			| new.getYVelocity() = yVel
-	 * 
-	 * @post 	...
-	 * 			| if !isValidVelocity(totalVelocity(xVel, yVel))
-	 * 			| new.getXVelocity() = getXVelocity()
-	 * 			| new.getXVelocity() = getXVelocity()
+
+	 * @post 	if the supplied velocity is valid, the velocity is set to the supplied values
+	 * 			| if isValidVelocity(totalVelocity(xVel, yVel))
+	 * 			| then new.getXVelocity() = xVel&&
+	 * 			| 		new.getXVelocity() = yVel
 	 */
 	@Basic @Raw
 	public void setVelocity(double xVel, double yVel){
