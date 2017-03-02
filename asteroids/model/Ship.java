@@ -76,7 +76,7 @@ public class Ship {
 	/**
 	 * Checks if the Position is a Valid position
 	 */
-	public boolean isValidPosition(double Pos){
+	public static boolean isValidPosition(double Pos){
 		return !((Pos == Double.NaN)||(Pos == Double.POSITIVE_INFINITY)
 				||(Pos == Double.NEGATIVE_INFINITY));
 	}
@@ -162,7 +162,7 @@ public class Ship {
 	 * @post 	if the supplied velocity is valid, the velocity is set to the supplied values
 	 * 			| if isValidVelocity(totalVelocity(xVel, yVel))
 	 * 			| then new.getXVelocity() = xVel&&
-	 * 			| 		new.getXVelocity() = yVel
+	 * 			| 	   new.getXVelocity() = yVel
 	 */
 	@Basic @Raw
 	public void setVelocity(double xVel, double yVel){
@@ -261,4 +261,64 @@ public class Ship {
 	private static double radius;
 	
 	public final static double MIN_RADIUS = 10;
+	
+	
+	/**
+	 * Sets the new position of the ship according to the current speed and given time interval
+	 * @param   time
+	 * 			the passed time used to move the ship
+	 * 
+	 * @post 	if the given time is zero, the position of the ship will not change
+	 * 			| if(time == 0)
+	 * 			| then (new.getXPosition() == getXPosition) &&
+	 * 			|	   (new.getYPosition() == getYPosition) 
+	 * 
+	 * @post	if the given type is nonnegative and not zero the ship is moved
+	 * 			| if(time > 0)
+	 * 			| then (new.getXPosition() == getXPosition() + getXVelocity()*time)&&
+	 * 			|	   (new.getYPosition() == getYPosition() + getYVelocity()*time)
+	 * 
+	 * @throws	IllegalArgumentException
+	 * 			The given value for the time is illegal
+	 * 			| ! isValidTime(time)
+	 */
+	public void move(double time) throws IllegalArgumentException{
+		if(!isValidTime(time))
+			throw new IllegalArgumentException();
+		
+		double xPos = this.getXPosition() + time*this.getXVelocity();
+		double yPos = this.getYPosition() + time*this.getYVelocity();
+		
+		this.setXPosition(xPos);
+		this.setYposition(yPos);
+		
+	}
+	
+	/**
+	 * Check whether the given time is a valid time
+	 * @param   time
+	 * 			the time to check
+	 * @return 	True if and only if the time is nonnegative
+	 * 			| result == time >= 0
+	 */
+	public static boolean isValidTime(double time){
+		return time>=0;
+	}
+	
+	/**
+	 * Turns the ship for a given angle
+	 * @param 	angle
+	 * 			The angle the ship has to turn
+	 * 
+	 * @Pre 	The sum of the angle and the old angle of the ship is nonnegative and smaller than 2PI
+	 * 			| (angle + getOrientation()) <= 2*Math.PI && (angle + getOrientation() >= 0)
+	 * 
+	 * @post 	The new orientation is the sum of the angle and the old orientation
+	 * 			| new.getOrientation() == angle + getOrientation()
+	 */
+	public void turn(double angle){
+		double newAngle = angle + this.getOrientation();
+		assert( (newAngle <= 2*Math.PI)&&(newAngle >= 0) );
+		this.setOrientation(newAngle);		
+	}
 }
